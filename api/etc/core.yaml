@@ -10,7 +10,7 @@ Auth:
 Log:
   ServiceName: coreApiLogger
   Mode: file
-  Path: /home/data/logs/core/api
+#  Path: /home/data/logs/core/api
   Level: info
   Compress: false
   KeepDays: 7
@@ -23,12 +23,12 @@ Captcha:
   Driver: digit
 
 DatabaseConf:
-  Type: mysql
+  Type: postgres
   Host: 127.0.0.1
-  Port: 3306
+  Port: 5432
   DBName: simple_admin
-  Username: # set your username
-  Password: # set your password
+  Username: postgres # set your username
+  Password: '123456' # set your password
   MaxOpenConn: 100
   SSLMode: disable
   CacheTime: 5

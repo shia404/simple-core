@@ -2,20 +2,20 @@ Name: core.rpc
 ListenOn: 0.0.0.0:9101
 
 DatabaseConf:
-  Type: mysql
+  Type: postgres
   Host: 127.0.0.1
-  Port: 3306
+  Port: 5432
   DBName: simple_admin
-  Username: # set your username
-  Password: # set your password
+  Username: postgres # set your username
+  Password: '123456' # set your password
   MaxOpenConn: 100
-  SSLMode: disable # disable or require
+  SSLMode: disable
   CacheTime: 5
 
 Log:
   ServiceName: coreRpcLogger
   Mode: file
-  Path: /home/data/logs/core/rpc
+#  Path: /home/data/logs/core/rpc
   Encoding: json
   Level: info
   Compress: false
