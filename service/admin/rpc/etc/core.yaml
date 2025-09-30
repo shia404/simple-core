@@ -50,3 +50,8 @@ CasbinConf:
 #  Endpoint: localhost:4317
 #  Sampler: 1.0
 #  Batcher: otlpgrpc # grpc
+
+CoreRpc:
+  Endpoints:
+    - 127.0.0.1:9101
+  Enabled: true
