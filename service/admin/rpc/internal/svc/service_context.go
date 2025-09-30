@@ -7,7 +7,7 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	_ "github.com/suyuan32/simple-admin-core/rpc/ent/runtime"
+	_ "github.com/suyuan32/simple-admin-core/service/admin/rpc/ent/runtime"
 )
 
 type ServiceContext struct {

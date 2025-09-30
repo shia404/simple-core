@@ -1,0 +1,2 @@
+{"@timestamp":"2025-09-30T11:19:39.302+08:00","caller":"stat/usage.go:61","content":"CPU: 0m, MEMORY: Alloc=3.6Mi, TotalAlloc=5.5Mi, Sys=14.1Mi, NumGC=2","level":"stat"}
+{"@timestamp":"2025-09-30T11:19:39.343+08:00","caller":"load/sheddingstat.go:61","content":"(rpc) shedding_stat [1m], cpu: 0, total: 0, pass: 0, drop: 0","level":"stat"}
