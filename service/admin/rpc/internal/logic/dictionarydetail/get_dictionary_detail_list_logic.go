@@ -1,0 +1,63 @@
+package dictionarydetail
+
+import (
+	"context"
+
+	"github.com/suyuan32/simple-admin-common/utils/pointy"
+	ent2 "github.com/suyuan32/simple-admin-core/service/admin/rpc/ent"
+	dictionarydetail2 "github.com/suyuan32/simple-admin-core/service/admin/rpc/ent/dictionarydetail"
+	"github.com/suyuan32/simple-admin-core/service/admin/rpc/ent/predicate"
+	"github.com/suyuan32/simple-admin-core/service/admin/rpc/internal/svc"
+	"github.com/suyuan32/simple-admin-core/service/admin/rpc/internal/utils/dberrorhandler"
+	"github.com/suyuan32/simple-admin-core/service/admin/rpc/types/core"
+	"github.com/zeromicro/go-zero/core/logx"
+)
+
+type GetDictionaryDetailListLogic struct {
+	ctx    context.Context
+	svcCtx *svc.ServiceContext
+	logx.Logger
+}
+
+func NewGetDictionaryDetailListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetDictionaryDetailListLogic {
+	return &GetDictionaryDetailListLogic{
+		ctx:    ctx,
+		svcCtx: svcCtx,
+		Logger: logx.WithContext(ctx),
+	}
+}
+
+func (l *GetDictionaryDetailListLogic) GetDictionaryDetailList(in *core.DictionaryDetailListReq) (*core.DictionaryDetailListResp, error) {
+	var predicates []predicate.DictionaryDetail
+	if in.DictionaryId != nil {
+		predicates = append(predicates, dictionarydetail2.DictionaryIDEQ(*in.DictionaryId))
+	}
+	if in.Key != nil {
+		predicates = append(predicates, dictionarydetail2.KeyContains(*in.Key))
+	}
+	result, err := l.svcCtx.DB.DictionaryDetail.Query().Where(predicates...).Page(l.ctx, in.Page, in.PageSize, func(pager *ent2.DictionaryDetailPager) {
+		pager.Order = ent2.Asc(dictionarydetail2.FieldSort)
+	})
+	if err != nil {
+		return nil, dberrorhandler.DefaultEntError(l.Logger, err, in)
+	}
+
+	resp := &core.DictionaryDetailListResp{}
+	resp.Total = result.PageDetails.Total
+
+	for _, v := range result.List {
+		resp.Data = append(resp.Data, &core.DictionaryDetailInfo{
+			Id:           &v.ID,
+			CreatedAt:    pointy.GetPointer(v.CreatedAt.UnixMilli()),
+			UpdatedAt:    pointy.GetPointer(v.UpdatedAt.UnixMilli()),
+			Status:       pointy.GetPointer(uint32(v.Status)),
+			Title:        &v.Title,
+			Key:          &v.Key,
+			Value:        &v.Value,
+			DictionaryId: &v.DictionaryID,
+			Sort:         &v.Sort,
+		})
+	}
+
+	return resp, nil
+}
